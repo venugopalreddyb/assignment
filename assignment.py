@@ -13,7 +13,7 @@ import sys
 import random
 import logging
 import string
-from urllib.parse import urljoin
+from urllib.parse import urlparse
 #from urlparse import urlparse
 
 outDir = os.path.join('.', 'images')
@@ -34,7 +34,7 @@ def randomString(stringLength):
 
 def getFilenameFromUrl(url):
     try:
-        url = urllib.parse(url)
+        url = urlparse(url)
         return url.path.split('/').pop()
     except:
         return randomString(8)
@@ -55,14 +55,18 @@ def writeFile(response, filename, image):
 
 
 def downloadImages(image):
-    response = requests.get(image, stream=True)
-    filename = os.path.join(outDir, getFilenameFromUrl(image))
+    try:
+        response = requests.get(image, stream=True)
+        filename = os.path.join(outDir, getFilenameFromUrl(image))
 
-    if response.status_code == 200:
-        writeFile(response, filename, image)
-        return True
-    else:
-        print('unable to download image {iamge}')
+        if response.status_code == 200:
+            writeFile(response, filename, image)
+            return True
+        else:
+            logger.error("Unable to download image " + image)
+            return False
+    except:
+        logger.error("Unable to download image " + image) 
         return False
 
 

@@ -1,2 +1,3 @@
-testurl
-test1url
+https://www.fnordware.com/j2k/relax-orig.png
+https://sample-videos.com/img/Sample-png-image-1mb.png
+https://sample-videos.com/img/Sample-jpg-image-50kb.jpg
